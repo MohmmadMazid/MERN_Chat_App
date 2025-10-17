@@ -4,6 +4,6 @@ import { login, register } from "../controllers/user.controller.js";
 const rotuer = express.Router();
 
 rotuer.post("/register", register);
-rotuer.get("/login", login);
+rotuer.post("/login", login);
 
 export default rotuer;
