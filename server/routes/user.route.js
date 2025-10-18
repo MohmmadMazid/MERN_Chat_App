@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getOtherUsers,
   getprofile,
   login,
   logout,
@@ -13,5 +14,6 @@ rotuer.post("/register", register);
 rotuer.post("/login", login);
 rotuer.get("/logout", isAuthenticated, logout);
 rotuer.get("/get-profile", isAuthenticated, getprofile);
+rotuer.get("/get-other-users", isAuthenticated, getOtherUsers);
 
 export default rotuer;

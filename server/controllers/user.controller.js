@@ -109,3 +109,11 @@ export const logout = asyncHandler(async (req, res, next) => {
     .status(200)
     .json({ success: true, message: "user logged out successfully" });
 });
+
+export const getOtherUsers = asyncHandler(async (req, res, next) => {
+  const userId = req.user?._id;
+  // console.log("userid ", userId);
+  const otherUsers = await User.find({ _id: { $ne: userId } });
+
+  res.status(200).json({ success: true, responseData: otherUsers });
+});

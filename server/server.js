@@ -12,9 +12,11 @@ import { errorMiddleware } from "./mddlewares/error.middleware.js";
 connectDb();
 const PORT = process.env.PORT || 5500;
 import userRoutes from "./routes/user.route.js";
+import messageRoutes from "./routes/message.route.js";
 app.use(cookieParser());
 
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/message", messageRoutes);
 
 app.use(errorMiddleware);
 app.listen(PORT, () => {
