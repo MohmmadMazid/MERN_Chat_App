@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUserThunk } from "../../slice/user/user.thunk";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [inputFormData, setInputFormData] = useState({
     username: "",
     password: "",
@@ -16,8 +21,14 @@ const Login = () => {
     // console.log(inputFormData);
   };
 
-  const handleSubmitInputFormData = () => {
-    console.log(inputFormData);
+  const handleSubmitInputFormData = async () => {
+    // console.log(inputFormData);
+    const response = await dispatch(loginUserThunk(inputFormData));
+    // console.log(response.payload.success);
+    if (response?.payload?.success) {
+      toast.success("login successfully");
+      navigate("/");
+    }
     setInputFormData({ username: "", password: "" });
   };
 
@@ -31,7 +42,7 @@ const Login = () => {
         <div>
           <h1 className="text-2xl mb-4  text-center">Login</h1>
         </div>
-        <label class="input validator  w-full">
+        <label className="input validator  w-full">
           <FaUser />
           <input
             type="text"
@@ -42,7 +53,7 @@ const Login = () => {
             value={inputFormData.username}
           />
         </label>
-        <div class="validator-hint hidden">Enter valid Username</div> <br />{" "}
+        <div className="validator-hint hidden">Enter valid Username</div> <br />{" "}
         <br />
         {/* <label class="input validator  w-full">
           <MdEmail />
@@ -51,7 +62,7 @@ const Login = () => {
         <div class="validator-hint hidden">Enter valid email address</div>
         <br />
         <br /> */}
-        <label class="input validator w-full">
+        <label className="input validator w-full">
           <RiLockPasswordFill />
           <input
             type="password"
@@ -62,11 +73,11 @@ const Login = () => {
             value={inputFormData.password}
           />
         </label>
-        <div class="validator-hint hidden">Enter valid password</div>
+        <div className="validator-hint hidden">Enter valid password</div>
         <br />
         <br />
         <button
-          class="btn btn-primary w-full"
+          className="btn btn-primary w-full"
           type="submit"
           onClick={handleSubmitInputFormData}
         >

@@ -6,8 +6,14 @@ import connectDb from "./db/connection1.db.js";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 import cookieParser from "cookie-parser";
-
+import cors from "cors";
 import { errorMiddleware } from "./mddlewares/error.middleware.js";
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  })
+);
 
 connectDb();
 const PORT = process.env.PORT || 5500;

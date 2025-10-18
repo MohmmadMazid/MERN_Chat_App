@@ -5,18 +5,17 @@ import Login from "./pages/authentication/login";
 import Signup from "./pages/authentication/signup";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { login } from "./slice/user/user.slice";
+// import { login } from "./slice/user/user.slice";
 import { loginUserThunk } from "./slice/user/user.thunk";
 
 function App() {
   const store = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
-  console.log(store.isAuthenticated);
+  // console.log(store.isAuthenticated);
 
   // for calling hte login function
 
   useEffect(() => {
-    dispatch(login());
     dispatch(loginUserThunk());
   });
 

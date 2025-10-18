@@ -15,7 +15,7 @@ const UserSidebar = () => {
       </div>
       <div className="p-3 mb-4 mt-2 ">
         <label className="input   gap-2">
-          <input type="search" class="grow" placeholder="Search" />
+          <input type="search" className="grow" placeholder="Search" />
           <FaSearch />
         </label>
       </div>
@@ -71,12 +71,12 @@ const UserSidebar = () => {
         <User />
       </div>
       <div className="bg-black flex items-center justify-between p-2 ">
-        <div class="avatar">
-          <div class="ring-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
+        <div className="avatar">
+          <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
             <img src="https://img.daisyui.com/images/profile/demo/distracted2@192.webp" />
           </div>
         </div>
-        <button class="btn btn-primary btn-sm px-6">Logout</button>
+        <button className="btn btn-primary btn-sm px-6">Logout</button>
       </div>
     </div>
   );

@@ -2,8 +2,12 @@ import React from "react";
 import User from "./User";
 import Message from "./Message";
 import { IoIosSend } from "react-icons/io";
+import toast from "react-hot-toast";
 
 const MessageContainer = () => {
+  const messageSend = () => {
+    toast.success("message send successfully");
+  };
   return (
     <div className="w-full h-screen  flex flex-col ">
       <div className=" border-b-2 border-b-white/10 p-3 ">
@@ -82,7 +86,10 @@ const MessageContainer = () => {
           placeholder="write message..."
           className="input input-primary w-full"
         />
-        <button class="btn btn-square btn-outline btn-primary">
+        <button
+          className="btn btn-square btn-outline btn-primary"
+          onClick={messageSend}
+        >
           <IoIosSend />
         </button>
       </div>
