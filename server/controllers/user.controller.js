@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import { asyncHandler } from "../utilities/asyncHandler.utility.js";
 import { errorHandler } from "../utilities/errorHandler.utility.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const register = asyncHandler(async (req, res, next) => {
   const { fullName, username, password, gender } = req.body;
@@ -26,8 +27,29 @@ export const register = asyncHandler(async (req, res, next) => {
     gender,
     avatar,
   });
-  res.status(200).json({ success: true, message: "user created successfully" });
+  const data = {
+    _id: newUser?._id,
+  };
+  const token = jwt.sign(data, process.env.JWT_SECRETS, {
+    expiresIn: process.env.JWT_EXPIRES,
+  });
+  res
+    .status(200)
+    .cookie("token", token, {
+      expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    })
+    .json({
+      success: true,
+      userdata: {
+        message: "user created successfully",
+        token: token,
+      },
+    });
 });
+
 export const login = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
   console.log(req.body);
@@ -46,6 +68,44 @@ export const login = asyncHandler(async (req, res, next) => {
   if (!isConfirmPassword) {
     return next(new errorHandler("please enter valid username and passwor"));
   }
+  const data = {
+    _id: user?._id,
+  };
+  const token = jwt.sign(data, process.env.JWT_SECRETS, {
+    expiresIn: process.env.JWT_EXPIRES,
+  });
 
-  res.status(200).json({ success: true, user: user });
+  res
+    .status(200)
+    .cookie("token", token, {
+      expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    })
+    .json({
+      success: true,
+      user: user,
+      token,
+      data: jwt.verify(token, process.env.JWT_SECRETS),
+    });
+});
+
+export const getprofile = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  console.log("userid inside controller ", userId);
+  const profile = await User.findById(userId);
+  res.status(200).json({ success: true, profiledata: profile });
+});
+
+export const logout = asyncHandler(async (req, res, next) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
+
+  res
+    .status(200)
+    .json({ success: true, message: "user logged out successfully" });
 });
