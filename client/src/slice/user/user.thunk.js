@@ -45,3 +45,35 @@ export const registerUserThunk = createAsyncThunk(
     }
   }
 );
+export const logoutUserThunk = createAsyncThunk(
+  "logoutUserThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/user/logout");
+      // console.log(username, password);
+      // console.log(response);
+      toast.success("logged Out successfully");
+      return response.data;
+    } catch (error) {
+      const errorOutput =
+        error.response?.data?.message || error.message || "Logout failed";
+      toast.error(errorOutput);
+      return rejectWithValue(errorOutput);
+    }
+  }
+);
+export const getUserProfileThunk = createAsyncThunk(
+  "getUserProfileThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/user/get-profile");
+
+      return response.data;
+    } catch (error) {
+      const errorOutput =
+        error.response?.data?.message || error.message || "Logout failed";
+      // toast.error(errorOutput);
+      return rejectWithValue(errorOutput);
+    }
+  }
+);

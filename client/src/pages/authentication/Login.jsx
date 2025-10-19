@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUserThunk } from "../../slice/user/user.thunk";
 import toast from "react-hot-toast";
@@ -10,6 +10,14 @@ import toast from "react-hot-toast";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.userSlice);
+  const { isAuthenticated } = data;
+  console.log(isAuthenticated);
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
   const [inputFormData, setInputFormData] = useState({
     username: "",
     password: "",
@@ -25,6 +33,7 @@ const Login = () => {
     // console.log(inputFormData);
     const response = await dispatch(loginUserThunk(inputFormData));
     // console.log(response.payload.success);
+    // console.log(response.payload);
     if (response?.payload?.success) {
       toast.success("login successfully");
       navigate("/");

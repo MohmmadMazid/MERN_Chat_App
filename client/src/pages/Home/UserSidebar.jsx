@@ -1,8 +1,14 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
 import User from "./User";
-
+import { useDispatch } from "react-redux";
+import { logoutUserThunk } from "../../slice/user/user.thunk";
 const UserSidebar = () => {
+  const dispatch = useDispatch();
+
+  const handleLogoutUser = () => {
+    dispatch(logoutUserThunk());
+  };
   return (
     <div
       className="max-w-[20rem] w-full h-screen  flex flex-col border-r-1
@@ -76,7 +82,12 @@ const UserSidebar = () => {
             <img src="https://img.daisyui.com/images/profile/demo/distracted2@192.webp" />
           </div>
         </div>
-        <button className="btn btn-primary btn-sm px-6">Logout</button>
+        <button
+          className="btn btn-primary btn-sm px-6"
+          onClick={handleLogoutUser}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
