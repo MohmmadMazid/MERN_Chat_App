@@ -77,3 +77,17 @@ export const getUserProfileThunk = createAsyncThunk(
     }
   }
 );
+export const getOtherUsersThunk = createAsyncThunk(
+  "getOtherUsersThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/user/get-other-users");
+
+      return response.data;
+    } catch (error) {
+      const errorOutput = error.response?.data?.message || error.message;
+      // toast.error(errorOutput);
+      return rejectWithValue(errorOutput);
+    }
+  }
+);

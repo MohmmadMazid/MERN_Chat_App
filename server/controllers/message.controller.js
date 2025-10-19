@@ -5,9 +5,9 @@ import { errorHandler } from "../utilities/errorHandler.utility.js";
 
 export const sendMessage = asyncHandler(async (req, res, next) => {
   const senderId = req.user?._id;
-  console.log(senderId);
+  // console.log(senderId);
   const receiverId = req.params.receiverId;
-  console.log(receiverId);
+  // console.log(receiverId);
   const message = req.body.message;
   if (!senderId || !receiverId || !message) {
     return next(new errorHandler("all fields are required", 400));
@@ -44,6 +44,7 @@ export const getMessages = asyncHandler(async (req, res, next) => {
   console.log(myId);
   const otherParticipantId = req.params.otherparticipantId;
   console.log("otherParticipantId is ", otherParticipantId);
+  console.log("my id ", myId);
 
   if (!myId || !otherParticipantId) {
     return next(
@@ -52,10 +53,9 @@ export const getMessages = asyncHandler(async (req, res, next) => {
   }
 
   let conversation = await Conversation.findOne({
-    participants: {
-      $all: [myId, otherParticipantId],
-    },
+    participants: { $all: [myId, otherParticipantId] },
   }).populate("messages");
+  console.log(conversation);
 
-  res.status(200).json({ message: true, responseData: conversation });
+  res.status(200).json({ success: true, responseData: conversation });
 });

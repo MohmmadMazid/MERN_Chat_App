@@ -1,11 +1,14 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
 import User from "./User";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUserThunk } from "../../slice/user/user.thunk";
 const UserSidebar = () => {
-  const dispatch = useDispatch();
+  const data = useSelector((state) => state);
+  // console.log("user details ", data?.userSlice?.otherUsers);
+  const otherUsers = data?.userSlice?.otherUsers;
 
+  const dispatch = useDispatch();
   const handleLogoutUser = () => {
     dispatch(logoutUserThunk());
   };
@@ -25,56 +28,10 @@ const UserSidebar = () => {
           <FaSearch />
         </label>
       </div>
-      <div className="h-full overflow-y-auto px-2 ">
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
+      <div className="h-full overflow-y-auto px-2  flex flex-col gap-1">
+        {otherUsers?.map((user) => {
+          return <User key={user?._id} userDetails={user} />;
+        })}
       </div>
       <div className="bg-black flex items-center justify-between p-2 ">
         <div className="avatar">

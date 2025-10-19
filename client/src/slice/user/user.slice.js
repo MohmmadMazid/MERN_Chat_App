@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  getOtherUsersThunk,
   getUserProfileThunk,
   loginUserThunk,
   logoutUserThunk,
@@ -11,14 +12,17 @@ const initialState = {
   screenLoading: true,
   userProfile: null,
   buttonLoading: false,
+  otherUsers: null,
+  selectedUser: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: () => {
-      console.log("hello login");
+    setSelectedUser: (state, action) => {
+      // console.log("selectedUser ", action.payload);
+      state.selectedUser = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -46,13 +50,13 @@ const userSlice = createSlice({
     });
     builder.addCase(registerUserThunk.fulfilled, (state, action) => {
       // console.log("fulfilled");
-      console.log("action payload ", action.payload);
+      // console.log("action payload ", action.payload);
       state.userProfile = action.payload?.user;
       state.buttonLoading = false;
       state.isAuthenticated = true;
     });
     builder.addCase(registerUserThunk.rejected, (state, action) => {
-      console.log("rejected");
+      // console.log("rejected");
       state.buttonLoading = false;
     });
     // for  logout
@@ -62,13 +66,13 @@ const userSlice = createSlice({
     });
     builder.addCase(logoutUserThunk.fulfilled, (state, action) => {
       // console.log("fulfilled");
-      console.log("action payload ", action.payload);
+      // console.log("action payload ", action.payload);
       state.userProfile = null;
       state.buttonLoading = false;
       state.isAuthenticated = false;
     });
     builder.addCase(logoutUserThunk.rejected, (state, action) => {
-      console.log("rejected");
+      // console.log("rejected");
       state.buttonLoading = false;
     });
     // for getUserprofile
@@ -77,14 +81,28 @@ const userSlice = createSlice({
       state.screenLoading = true;
     });
     builder.addCase(getUserProfileThunk.fulfilled, (state, action) => {
-      console.log("action payload ", action.payload);
+      console.log("get userProfle payload in slice", action.payload);
+      state.userProfile = action?.payload?.profiledata;
       state.screenLoading = false;
       state.isAuthenticated = true;
     });
     builder.addCase(getUserProfileThunk.rejected, (state, action) => {
       state.screenLoading = false;
     });
+    // for getOtherUsersThunk
+    builder.addCase(getOtherUsersThunk.pending, (state, action) => {
+      // console.log("pending");
+      state.screenLoading = true;
+    });
+    builder.addCase(getOtherUsersThunk.fulfilled, (state, action) => {
+      // console.log("action payload ", action.payload.responseData);
+      state.otherUsers = action?.payload?.responseData;
+      state.screenLoading = false;
+    });
+    builder.addCase(getOtherUsersThunk.rejected, (state, action) => {
+      state.screenLoading = false;
+    });
   },
 });
-export const { login } = userSlice.actions;
+export const { setSelectedUser } = userSlice.actions;
 export default userSlice.reducer;
