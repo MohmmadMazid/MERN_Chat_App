@@ -19,7 +19,8 @@ const messageSclice = createSlice({
     });
     builder.addCase(sendMessageThunk.fulfilled, (state, action) => {
       // console.log("fulfilled");
-      console.log("action payload in send message ", action.payload);
+      // console.log("action payload in send message ", action?.payload?.message);
+      state.messages = [...state.messages, action?.payload?.message];
       state.buttonLoading = false;
     });
     builder.addCase(sendMessageThunk.rejected, (state, action) => {

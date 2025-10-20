@@ -11,6 +11,7 @@ const SendMessage = () => {
   const handleSendMessage = () => {
     // console.log(message, selectedUser?._id);
     dispatch(sendMessageThunk({ receiverId: selectedUser?._id, message }));
+    setMessage("");
   };
 
   return (
@@ -21,6 +22,7 @@ const SendMessage = () => {
           placeholder="write message..."
           className="input input-primary w-full"
           onChange={(e) => setMessage(e.target.value)}
+          value={message}
         />
         <button
           onClick={handleSendMessage}

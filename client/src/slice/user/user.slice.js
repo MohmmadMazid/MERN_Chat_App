@@ -13,7 +13,7 @@ const initialState = {
   userProfile: null,
   buttonLoading: false,
   otherUsers: null,
-  selectedUser: null,
+  selectedUser: JSON.parse(localStorage.getItem("selectedUser")),
 };
 
 const userSlice = createSlice({
@@ -23,6 +23,7 @@ const userSlice = createSlice({
     setSelectedUser: (state, action) => {
       // console.log("selectedUser ", action.payload);
       state.selectedUser = action.payload;
+      localStorage.setItem("selectedUser", JSON.stringify(action.payload));
     },
   },
   extraReducers: (builder) => {
@@ -68,8 +69,11 @@ const userSlice = createSlice({
       // console.log("fulfilled");
       // console.log("action payload ", action.payload);
       state.userProfile = null;
+      state.otherUsers = null;
       state.buttonLoading = false;
       state.isAuthenticated = false;
+      state.selectedUser = null;
+      localStorage.clear();
     });
     builder.addCase(logoutUserThunk.rejected, (state, action) => {
       // console.log("rejected");

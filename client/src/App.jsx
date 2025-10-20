@@ -8,10 +8,7 @@ import { useEffect } from "react";
 // import { login } from "./slice/user/user.slice";
 // import { loginUserThunk } from "./slice/user/user.thunk";
 import ProtectedRoutes from "./components/protectedRoutes";
-import {
-  getOtherUsersThunk,
-  getUserProfileThunk,
-} from "./slice/user/user.thunk";
+import { getUserProfileThunk } from "./slice/user/user.thunk";
 
 function App() {
   // const store = useSelector((state) => state.userSlice);

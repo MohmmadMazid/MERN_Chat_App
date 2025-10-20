@@ -1,17 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import User from "./User";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUserThunk } from "../../slice/user/user.thunk";
+import {
+  getOtherUsersThunk,
+  logoutUserThunk,
+} from "../../slice/user/user.thunk";
 const UserSidebar = () => {
   const data = useSelector((state) => state);
   // console.log("user details ", data?.userSlice?.otherUsers);
   const otherUsers = data?.userSlice?.otherUsers;
+  // console.log("inside UserSidebar", data?.userSlice?.userProfile);
+  const userProfile = data?.userSlice?.userProfile;
 
   const dispatch = useDispatch();
   const handleLogoutUser = () => {
     dispatch(logoutUserThunk());
   };
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getOtherUsersThunk());
+    })();
+  }, []);
   return (
     <div
       className="max-w-[20rem] w-full h-screen  flex flex-col border-r-1
@@ -33,11 +44,14 @@ const UserSidebar = () => {
           return <User key={user?._id} userDetails={user} />;
         })}
       </div>
-      <div className="bg-black flex items-center justify-between p-2 ">
-        <div className="avatar">
-          <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
-            <img src="https://img.daisyui.com/images/profile/demo/distracted2@192.webp" />
+      <div className=" flex items-center justify-between p-2 ">
+        <div className="flex  items-center gap-3">
+          <div className="avatar avatar-online">
+            <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
+              <img src={userProfile?.avatar} />
+            </div>
           </div>
+          <h2 className="font-bold ">{userProfile?.username}</h2>
         </div>
         <button
           className="btn btn-primary btn-sm px-6"

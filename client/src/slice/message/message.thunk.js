@@ -10,6 +10,7 @@ export const sendMessageThunk = createAsyncThunk(
       const response = await axiosInstance.post(`/message/send/${receiverId}`, {
         message,
       });
+      // console.log("response data inside the send message thunk ", response);
       return response.data;
     } catch (error) {
       const errorOutput =
