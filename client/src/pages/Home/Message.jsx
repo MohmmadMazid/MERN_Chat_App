@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 const Message = ({ messageDetails }) => {
@@ -12,9 +12,18 @@ const Message = ({ messageDetails }) => {
     second: "numeric",
     hour12: true,
   });
+
+  const messageRef = useRef(null);
+
+  useEffect(() => {
+    if (messageRef.current) {
+      messageRef.current.scrollIntoView({ behavoir: "smooth" });
+    }
+  });
   return (
     <div>
       <div
+        ref={messageRef}
         className={`chat   ${
           userProfile?._id === messageDetails?.senderId
             ? "chat-end"

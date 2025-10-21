@@ -95,7 +95,7 @@ export const login = asyncHandler(async (req, res, next) => {
 
 export const getprofile = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
-  console.log("userid inside controller ", userId);
+  // console.log("userid inside controller ", userId);
   const profile = await User.findById(userId);
   res.status(200).json({ success: true, profiledata: profile });
 });

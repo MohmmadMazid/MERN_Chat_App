@@ -85,7 +85,7 @@ const userSlice = createSlice({
       state.screenLoading = true;
     });
     builder.addCase(getUserProfileThunk.fulfilled, (state, action) => {
-      console.log("get userProfle payload in slice", action.payload);
+      // console.log("get userProfle payload in slice", action.payload);
       state.userProfile = action?.payload?.profiledata;
       state.screenLoading = false;
       state.isAuthenticated = true;

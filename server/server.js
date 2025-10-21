@@ -1,6 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
-const app = express();
+import { app, server } from "./socket/socket.js";
+// const app = express();
 import express, { urlencoded } from "express";
 import connectDb from "./db/connection1.db.js";
 app.use(express.json());
@@ -10,7 +9,7 @@ import cors from "cors";
 import { errorMiddleware } from "./mddlewares/error.middleware.js";
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [process.env.CLIENT_URL],
     credentials: true,
   })
 );
@@ -25,6 +24,6 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/message", messageRoutes);
 
 app.use(errorMiddleware);
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });

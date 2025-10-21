@@ -3,12 +3,15 @@ import "./App.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/authentication/login";
 import Signup from "./pages/authentication/signup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 // import { login } from "./slice/user/user.slice";
 // import { loginUserThunk } from "./slice/user/user.thunk";
 import ProtectedRoutes from "./components/protectedRoutes";
-import { getUserProfileThunk } from "./slice/user/user.thunk";
+import {
+  getOtherUsersThunk,
+  getUserProfileThunk,
+} from "./slice/user/user.thunk";
 
 function App() {
   // const store = useSelector((state) => state.userSlice);

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import User from "./User";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,17 +6,33 @@ import {
   getOtherUsersThunk,
   logoutUserThunk,
 } from "../../slice/user/user.thunk";
+
 const UserSidebar = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [users, setUsers] = useState([]);
   const data = useSelector((state) => state);
-  // console.log("user details ", data?.userSlice?.otherUsers);
   const otherUsers = data?.userSlice?.otherUsers;
-  // console.log("inside UserSidebar", data?.userSlice?.userProfile);
   const userProfile = data?.userSlice?.userProfile;
 
   const dispatch = useDispatch();
   const handleLogoutUser = () => {
     dispatch(logoutUserThunk());
   };
+
+  useEffect(() => {
+    if (!searchValue) {
+      setUsers(otherUsers);
+    } else {
+      setUsers(
+        otherUsers.filter((user) => {
+          return (
+            user.username.toLowerCase().includes(searchValue.toLowerCase()) ||
+            user.fullName.toLowerCase().includes(searchValue.toLowerCase())
+          );
+        })
+      );
+    }
+  }, [searchValue, otherUsers]);
 
   useEffect(() => {
     (async () => {
@@ -35,12 +51,17 @@ const UserSidebar = () => {
       </div>
       <div className="p-3 mb-4 mt-2 ">
         <label className="input   gap-2">
-          <input type="search" className="grow" placeholder="Search" />
+          <input
+            onChange={(e) => setSearchValue(e.target.value)}
+            type="search"
+            className="grow"
+            placeholder="Search"
+          />
           <FaSearch />
         </label>
       </div>
       <div className="h-full overflow-y-auto px-2  flex flex-col gap-1">
-        {otherUsers?.map((user) => {
+        {users?.map((user) => {
           return <User key={user?._id} userDetails={user} />;
         })}
       </div>

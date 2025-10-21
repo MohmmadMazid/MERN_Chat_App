@@ -8,6 +8,9 @@ const User = ({ userDetails }) => {
   // console.log("user details ", data?.userSlice?.otherUsers);
   // const selectUser = data?.userSlice?.setSelectedUser;
   // console.log(data?._id === userDetails?._id);
+  // console.log("online users", data?.socketSlice?.onlineUsers);
+  const onlineUsers = useSelector((state) => state?.socketSlice?.onlineUsers);
+  const isUSerOnline = onlineUsers?.includes(userDetails?._id);
 
   const handleSelectedUser = () => {
     dispatch(setSelectedUser(userDetails));
@@ -20,7 +23,7 @@ const User = ({ userDetails }) => {
         "bg-gray-500 rounded-2xl font-bold"
       } `}
     >
-      <div className="avatar avatar-online">
+      <div className={`avatar ${isUSerOnline && "avatar-online"}`}>
         <div className="rounded-full w-12">
           {/* <img src="https://img.daisyui.com/images/profile/demo/distracted3@192.webp" />  statically used*/}
           <img src={userDetails?.avatar} />

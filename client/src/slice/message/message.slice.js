@@ -10,7 +10,12 @@ const initialState = {
 const messageSclice = createSlice({
   name: "message",
   initialState,
-  reducers: {},
+  reducers: {
+    setNewMessages: (state, action) => {
+      const oldMessages = state.messages ?? [];
+      state.messages = [...oldMessages, action.payload];
+    },
+  },
   extraReducers: (builder) => {
     //send message
     builder.addCase(sendMessageThunk.pending, (state, action) => {
@@ -50,5 +55,5 @@ const messageSclice = createSlice({
     });
   },
 });
-export const {} = messageSclice.actions;
+export const { setNewMessages } = messageSclice.actions;
 export default messageSclice.reducer;

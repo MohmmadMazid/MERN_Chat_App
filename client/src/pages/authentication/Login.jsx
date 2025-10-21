@@ -12,7 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.userSlice);
   const { isAuthenticated } = data;
-  console.log(isAuthenticated);
+  // console.log(isAuthenticated);
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");

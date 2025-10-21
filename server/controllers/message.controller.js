@@ -2,6 +2,7 @@ import Message from "../models/message.model.js";
 import Conversation from "../models/conversation.model.js";
 import { asyncHandler } from "../utilities/asyncHandler.utility.js";
 import { errorHandler } from "../utilities/errorHandler.utility.js";
+import { getSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = asyncHandler(async (req, res, next) => {
   const senderId = req.user?._id;
@@ -35,16 +36,18 @@ export const sendMessage = asyncHandler(async (req, res, next) => {
 
   // we will socket.io logic here
   //we will be apply the socket.io here
+  const socketId = getSocketId(receiverId);
+  io.to(socketId).emit("newMessage", newMessage);
 
   res.status(200).json({ success: true, message: newMessage });
 });
 
 export const getMessages = asyncHandler(async (req, res, next) => {
   let myId = req.user?._id;
-  console.log(myId);
+  // console.log(myId);
   const otherParticipantId = req.params.otherparticipantId;
-  console.log("otherParticipantId is ", otherParticipantId);
-  console.log("my id ", myId);
+  // console.log("otherParticipantId is ", otherParticipantId);
+  // console.log("my id ", myId);
 
   if (!myId || !otherParticipantId) {
     return next(
@@ -55,7 +58,7 @@ export const getMessages = asyncHandler(async (req, res, next) => {
   let conversation = await Conversation.findOne({
     participants: { $all: [myId, otherParticipantId] },
   }).populate("messages");
-  console.log(conversation);
+  // console.log(conversation); will print the all the conversion between the users
 
   res.status(200).json({ success: true, responseData: conversation });
 });
