@@ -16,7 +16,7 @@ const SendMessage = () => {
 
   return (
     <>
-      <div className="w-full p-3 flex gap-3">
+      <div className="w-full p-3 flex gap-3 ">
         <input
           type="text"
           placeholder="write message..."

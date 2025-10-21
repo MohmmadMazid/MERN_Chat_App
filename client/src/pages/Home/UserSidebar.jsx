@@ -45,8 +45,8 @@ const UserSidebar = () => {
      border-r-white/10"
     >
       <div>
-        <h1 className="bg-black font-bold mx-3 mt-3 text-[#5754E8] py-2  px-1 rounded-lg">
-          Gup Shup
+        <h1 className="bg-slate-900 font-bold mx-3 mt-3 text-[#5754E8] py-2  px-1 rounded-lg text-center">
+          DOT CHAT
         </h1>
       </div>
       <div className="p-3 mb-4 mt-2 ">
@@ -65,7 +65,7 @@ const UserSidebar = () => {
           return <User key={user?._id} userDetails={user} />;
         })}
       </div>
-      <div className=" flex items-center justify-between p-2 ">
+      <div className=" flex items-center justify-between p-2 bg-slate-900 border-t-white/10 ">
         <div className="flex  items-center gap-3">
           <div className="avatar avatar-online">
             <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
